@@ -20,6 +20,8 @@
 
 ## 下载命令
 
+直接交给 AI：帮我安装这个 [https://github.com/liyanxiong278176/interview-to-qa](https://github.com/liyanxiong278176/interview-to-qa)
+
 ### Codex
 
 Windows（PowerShell）：
