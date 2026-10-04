@@ -18,71 +18,61 @@
 
 这是一个以 Markdown 指令为主的 skill，不需要运行项目代码、启动 MCP Server 或安装额外 Python/Node.js 依赖。使用它需要支持技能或能读取指令文件的 AI 工具；Git 仅用于下面的下载和更新命令。
 
-## 下载与安装
+## 下载命令
 
-仓库地址：<https://github.com/liyanxiong278176/interview-to-qa>
+### Codex
 
-本仓库根目录就是技能目录，`SKILL.md` 直接位于根目录。安装后的正确结构是 `<技能目录>/interview-to-qa/SKILL.md`，避免解压后多嵌套一层。
-
-### 选择安装位置
-
-| 工具 | 用户级目录（跨本机项目） | 项目级目录（当前项目） |
-| --- | --- | --- |
-| Codex | `~/.agents/skills/interview-to-qa` | `.agents/skills/interview-to-qa` |
-| Claude Code | `~/.claude/skills/interview-to-qa` | `.claude/skills/interview-to-qa` |
-| Cursor | `~/.cursor/skills/interview-to-qa` | `.cursor/skills/interview-to-qa` |
-| Gemini CLI | `~/.gemini/skills/interview-to-qa` | `.gemini/skills/interview-to-qa` |
-
-`~` 表示用户主目录，例如 Windows 的 `C:\Users\你的用户名`。项目级路径相对于项目根目录。以上为本地安装位置，云端会话需要按相应工具的规则单独配置。
-
-Codex 路径依据 [官方本地技能文档](https://learn.chatgpt.com/docs/build-skills)。本技能最初在 Codex 桌面环境的 `~/.codex/skills/interview-to-qa` 中创建并使用；新安装优先使用上表的目录。同一工具不要重复安装同名 skill，以免出现多个选择项。
-
-Claude Code 与 Cursor 的目录分别见 [Claude Code 官方文档](https://code.claude.com/docs/en/skills) 和 [Cursor 官方文档](https://cursor.com/docs/skills)。下述 Cursor 方法是手动安装本地技能，不是 marketplace 插件导入。
-
-### Windows：PowerShell 下载
-
-以下以 Codex 用户级安装为例。使用其他工具时，将 `.agents/skills` 替换为上表对应目录；用户已有同名目录时，按后面的更新说明处理。
+Windows（PowerShell）：
 
 ```powershell
-$skillRoot = Join-Path $env:USERPROFILE '.agents/skills'
-$skillTarget = Join-Path $skillRoot 'interview-to-qa'
-New-Item -ItemType Directory -Path $skillRoot -Force | Out-Null
-git clone https://github.com/liyanxiong278176/interview-to-qa.git $skillTarget
+New-Item -ItemType Directory -Path "$env:USERPROFILE/.agents/skills" -Force | Out-Null
+git clone https://github.com/liyanxiong278176/interview-to-qa.git "$env:USERPROFILE/.agents/skills/interview-to-qa"
 ```
 
-如果仅安装到当前项目，在项目根目录执行，并把 `$skillRoot` 改成对应的相对路径，例如 `'.agents/skills'`。
-
-### macOS / Linux：终端下载
-
-同样以 Codex 用户级安装为例；Claude Code 替换成 `.claude/skills`，Cursor 替换成 `.cursor/skills`。
+macOS / Linux：
 
 ```bash
 mkdir -p ~/.agents/skills
 git clone https://github.com/liyanxiong278176/interview-to-qa.git ~/.agents/skills/interview-to-qa
 ```
 
-仅安装到当前项目时，在项目根目录执行：
+### Claude Code
 
-```bash
-mkdir -p .agents/skills
-git clone https://github.com/liyanxiong278176/interview-to-qa.git .agents/skills/interview-to-qa
+Windows（PowerShell）：
+
+```powershell
+New-Item -ItemType Directory -Path "$env:USERPROFILE/.claude/skills" -Force | Out-Null
+git clone https://github.com/liyanxiong278176/interview-to-qa.git "$env:USERPROFILE/.claude/skills/interview-to-qa"
 ```
 
-### 不使用 Git：下载 ZIP
+macOS / Linux：
 
-1. 打开仓库页面，选择 **Code → Download ZIP**。
-2. 解压后，将包含 `SKILL.md`、`agents/` 和 `references/` 的文件夹命名为 `interview-to-qa`。
-3. 将整个文件夹放入对应工具的技能目录，不要只复制 `SKILL.md`。
-4. 重新打开会话；如未发现技能，重启工具或使用其技能刷新入口。
+```bash
+mkdir -p ~/.claude/skills
+git clone https://github.com/liyanxiong278176/interview-to-qa.git ~/.claude/skills/interview-to-qa
+```
 
-### Gemini CLI：使用内置安装命令
+### Cursor
+
+Windows（PowerShell）：
+
+```powershell
+New-Item -ItemType Directory -Path "$env:USERPROFILE/.cursor/skills" -Force | Out-Null
+git clone https://github.com/liyanxiong278176/interview-to-qa.git "$env:USERPROFILE/.cursor/skills/interview-to-qa"
+```
+
+macOS / Linux：
+
+```bash
+mkdir -p ~/.cursor/skills
+git clone https://github.com/liyanxiong278176/interview-to-qa.git ~/.cursor/skills/interview-to-qa
+```
+
+### Gemini CLI
 
 ```bash
 gemini skills install https://github.com/liyanxiong278176/interview-to-qa.git --scope user
-gemini skills list
 ```
-
-仅安装到当前项目时，将 `--scope user` 改为 `--scope workspace`。在已打开的 Gemini CLI 会话中，可以执行 `/skills reload` 刷新、`/skills list` 查看。安装参数与目录见 [Gemini CLI 官方文档](https://geminicli.com/docs/cli/skills/)。
 
 ## 如何调用
 
@@ -96,7 +86,7 @@ gemini skills list
 | Cursor | 在 Agent 聊天中输入 `/`，搜索并选择 `interview-to-qa`。 |
 | Gemini CLI | 安装后用自然语言明确要求使用 `interview-to-qa`；使用 `/skills list` 检查是否已发现。 |
 
-Codex CLI / IDE 的 `$` 和 `/skills` 入口见 [官方调用说明](https://learn.chatgpt.com/docs/build-skills)；Claude Code 和 Cursor 的 `/` 入口见各自上面的官方文档。桌面端菜单随版本变化，以实际可见的技能选择器为准。只输入技能名时，模型会先请你提供讲解。
+调用说明参考 [Codex](https://learn.chatgpt.com/docs/build-skills)、[Claude Code](https://code.claude.com/docs/en/skills)、[Cursor](https://cursor.com/docs/skills) 和 [Gemini CLI](https://geminicli.com/docs/cli/skills/) 官方文档。桌面端菜单随版本变化，以实际可见的技能选择器为准。只输入技能名时，模型会先请你提供讲解。
 
 ### 示例 1：完整面试与 QA 复盘
 
@@ -167,7 +157,7 @@ $interview-to-qa
 git pull --ff-only
 ```
 
-如果有本地修改，先检查并保留，再处理更新；不要为了更新直接覆盖。ZIP 安装可重新下载并手动合并。更新后重新打开会话，必要时刷新技能或重启工具。
+如果有本地修改，先检查并保留，再处理更新；不要为了更新直接覆盖。更新后重新打开会话，必要时刷新技能或重启工具。
 
 ## 仓库结构
 
