@@ -1,0 +1,4 @@
+interface:
+  display_name: "interview-to-qa"
+  short_description: "对技术讲解评分，按内容确定有限追问次数，并整理连贯准确的学习 QA"
+  default_prompt: "使用 /interview-to-qa 对我的技术讲解评分，根据内容确定有限的追问次数，每次一题，结束后整理为连贯的学习 QA。"
